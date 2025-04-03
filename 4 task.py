@@ -1,6 +1,5 @@
 import csv, random
 
-name_file = "board_id.csv"
 
 def new_file(name):
     count = 1
