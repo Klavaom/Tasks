@@ -1,68 +1,53 @@
 import csv, random
 
-name = "board_id.csv"
-length_sort = []
-length = []
-
-def randomaise(first, end):
-    num = random.randrange(first, end)
-    return(num)
+name_file = "board_id.csv"
 
 def new_file(name):
-    count = 0
-    with open(name, "w", newline='') as csvfile:
-        writen = csv.writer(csvfile)
-        writen.writerow(["Board_id"," Length"]) 
+    count = 1
+    with open(name, "w", newline='') as file:
+        writen = csv.writer(file)
+        writen.writerow(["Board_id","Length"]) 
         for i in range(1000):
-            num = randomaise(1, 6000)
-            writen.writerow([count, num]) 
+            writen.writerow([count, random.randrange(1, 6000)]) 
             count += 1
 
-def read(name):
-    with open(name, newline="") as csvfile:
-        reader = csv.DictReader(csvfile)
+    
+def content_file(name):
+    length = []
+    with open(name, "r",) as file:
+        reader = csv.DictReader(file, delimiter=',')
         for row in reader:
-            length_sort.append(int(row[" Length"]))
-            length.append(int(row[" Length"]))
-        length_sort.sort()
+            length.append(int(row["Length"]))
+            length.sort()
+        return length
+    
+    
+def max_find(length):
+    return length[-1]
+    
 
-def max():
-    max=length_sort[999]
-    index = 0
-    for i in range(999):      
-        index += 1
-        if length[index] == max:
-            id = index
-    print(id, max) 
-    return(id, max)
-
-def low():
-    low=length_sort[0]
-    index = 0
+def avg_length(length):
+    id = 0 
+    summary = 0 
     for i in range(999):
-        index += 1
-        if length[index] == low:
-            id = index
+        summary += length[id]
+        id += 1
+        average_length = summary / 1000 
+    return average_length
+    
 
-    print(id, low)
-    return(id, low)
-
-def midlle():
-    summ = 0
-    index = 0
-    for i in length_sort:
-        summ += length_sort[index]
-        index += 1
-    midlle = summ / 1000
-    print(midlle)
-    return(midlle)
-
-new_file(name)
-read(name)
+def low_find(length):
+    return length[0]
 
 
+def main():
+    new_file(name)
+    length = content_file(name)
+    max_lenght = max_find(length)
+    average_length = avg_length(length)
+    low_lenght = low_find(length)
+    print(f"Наибольшее {max_lenght}, среднее {average_length}, наименьшее {low_lenght}")
 
-assert max() 
-assert low() 
-assert midlle() 
-
+if __name__ == '__main__':
+    name = "board_id.csv"
+    main()
